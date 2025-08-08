@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.getElementById('menu-toggle');
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-  // Carregar livros
+  // Carregar livros na grade
   books.forEach(book => {
     const bookDiv = document.createElement('div');
     bookDiv.classList.add('book');
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Mostrar/esconder carrinho
-  cartButton.addEventListener('click', () => toggleCart());
+  cartButton.addEventListener('click', toggleCart);
   cartButton.addEventListener('touchstart', (e) => {
     e.preventDefault();
     toggleCart();
@@ -101,6 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
       cartSection.style.display = 'none';
       cartButton.classList.remove('active');
     }
+    // Atualizar imagens ao redimensionar
+    document.querySelectorAll('.book img').forEach(img => {
+      const book = books.find(b => b.title === img.alt);
+      img.src = window.innerWidth <= 600 && book.imageMobile ? book.imageMobile : book.image;
+    });
   });
 
   // Inicializar carrinho
